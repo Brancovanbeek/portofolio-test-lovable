@@ -145,7 +145,7 @@ export default function Index() {
 
           <footer className={styles.footer}>
             <p className={styles.footerText}>
-              © 2024 {mockData.person.name}.
+              © 2026 {mockData.person.name}.
             </p>
           </footer>
         </div>

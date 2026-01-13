@@ -11,7 +11,7 @@ export const mockPerson: Person = {
       _key: 'photo-1',
       asset: {
         _ref: 'image-1',
-        url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
+        url: ' https://cdn.sanity.io/images/your-project-id/production/branco-profile.jpg',
       },
       alt: 'Branco van Beek',
     },
@@ -45,15 +45,15 @@ export const mockWorkRoles: WorkRole[] = [
 export const mockProjects: Project[] = [
   {
     _id: 'project-1',
-    name: 'PayFlow',
-    category: 'Fintech',
-    description: 'Een betalingsplatform dat kleine bedrijven helpt met snelle en veilige transacties. Inmiddels actief in 5 landen.',
-    url: 'https://payflow.example.com',
+    name: 'Bajeslab',
+    category: 'Website Development',
+    description: 'Een website voor een nieuwbouwproject gebouwd op de voormalige bijlmerbajes locatie.',
+    url: 'https://bajeslab.example.com',
   },
   {
     _id: 'project-2',
-    name: 'HealthTrack',
-    category: 'Healthtech',
+    name: 'Portofolio',
+    category: 'Website Development',
     description: 'AI-gedreven gezondheidsmonitoring app met 100.000+ gebruikers.',
     url: 'https://healthtrack.example.com',
   },
@@ -76,25 +76,25 @@ export const mockFAQItems: FAQItem[] = [
   {
     _id: 'faq-1',
     question: 'Wat is je achtergrond?',
-    answer: 'Ik heb een achtergrond in software engineering en ben begonnen als developer. Na enkele jaren ben ik overgestapt naar ondernemerschap en heb meerdere bedrijven opgericht.',
+    answer: 'Ik heb een achtergrond in frontend design en development. Ik focus me nu vooral op AI en ondernemerschap.',
     category: 'Persoonlijk',
   },
   {
     _id: 'faq-2',
-    question: 'Waarin investeer je?',
-    answer: 'Ik focus vooral op early-stage tech startups in de sectoren fintech, healthtech en edtech. Ik zoek naar teams met een sterke visie en een bewezen vermogen om uit te voeren.',
+    question: 'Waar kom je vandaan?',
+    answer: 'Ik kom uit Volendam, Nederland. Het is een klein dorp waar ik veel connecties heb opgebouwd in de tech-community.',
     category: 'Investeren',
   },
   {
     _id: 'faq-3',
     question: 'Hoe kan ik contact opnemen?',
-    answer: 'Je kunt me bereiken via LinkedIn of een e-mail sturen naar hello@example.com. Ik probeer binnen 48 uur te reageren.',
+    answer: 'Je kunt me bereiken via LinkedIn of een e-mail sturen naar brancovanbeek5@gmail.com. Ik probeer binnen 48 uur te reageren.',
     category: 'Contact',
   },
   {
     _id: 'faq-4',
     question: 'Wat zijn je huidige projecten?',
-    answer: 'Op dit moment focus ik me op het opschalen van TechVentures en het begeleiden van verschillende portfolio-bedrijven. Daarnaast ben ik actief als spreker op tech-evenementen.',
+    answer: 'Op dit moment bouw ik aan een website voor Bajeslab en begin Februari start ik mijn eigen webagency met 2 medestudenten.',
     category: 'Werk',
   },
   {
