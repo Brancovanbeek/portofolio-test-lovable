@@ -1,0 +1,71 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing-lg) var(--spacing-md);
+}
+
+.suggestion {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.suggestion:hover {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-accent);
+  color: var(--color-text-primary);
+  transform: translateY(-1px);
+}
+
+.suggestion:active {
+  transform: translateY(0);
+}
+
+.suggestionIcon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+}
+
+/* Animation for suggestions appearing */
+.suggestion:nth-child(1) { animation: fadeIn var(--transition-normal) ease 0.05s both; }
+.suggestion:nth-child(2) { animation: fadeIn var(--transition-normal) ease 0.1s both; }
+.suggestion:nth-child(3) { animation: fadeIn var(--transition-normal) ease 0.15s both; }
+.suggestion:nth-child(4) { animation: fadeIn var(--transition-normal) ease 0.2s both; }
+.suggestion:nth-child(5) { animation: fadeIn var(--transition-normal) ease 0.25s both; }
+.suggestion:nth-child(6) { animation: fadeIn var(--transition-normal) ease 0.3s both; }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+
+  .suggestion {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
