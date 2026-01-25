@@ -1,4 +1,5 @@
 import styles from './ResultView.module.css';
+import { mockData, profilePhotos, richDescription } from '../../lib/sanity/mockData';
 import type { Person, Project, WorkRole, FAQItem } from '../../lib/sanity/client';
 
 interface ResultViewProps {
@@ -7,6 +8,21 @@ interface ResultViewProps {
   workRoles?: WorkRole[];
   faqItems?: FAQItem[];
   query?: string;
+}
+
+// Helper to render rich text with **bold** syntax
+function RichText({ text }: { text: string }) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return (
+    <>
+      {parts.map((part, idx) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={idx}>{part.slice(2, -2)}</strong>;
+        }
+        return <span key={idx}>{part}</span>;
+      })}
+    </>
+  );
 }
 
 export function ResultView({
@@ -36,64 +52,71 @@ export function ResultView({
     <div className={styles.container}>
       {/* Person Profile */}
       {person && (
-        <section className={styles.section}>
-          <div className={styles.profile}>
-            {person.profilePhotos?.[0]?.asset?.url && (
-              <img
-                src={person.profilePhotos[0].asset.url}
-                alt={person.name}
-                className={styles.profileImage}
-              />
-            )}
+        <>
+          {/* Profile Header */}
+          <div className={styles.profileHeader}>
             <h1 className={styles.profileName}>{person.name}</h1>
             <p className={styles.profileRole}>{person.role}</p>
-            <p className={styles.profileBio}>{person.bio}</p>
           </div>
-        </section>
+
+          {/* Photo Grid */}
+          <div className={styles.photoGrid}>
+            <img
+              src={profilePhotos.main}
+              alt={person.name}
+              className={styles.mainPhoto}
+            />
+            <div className={styles.secondaryPhotos}>
+              {profilePhotos.secondary.slice(0, 2).map((url, idx) => (
+                <div key={idx} style={{ position: 'relative' }}>
+                  <img
+                    src={url}
+                    alt={`${person.name} foto ${idx + 2}`}
+                    className={styles.secondaryPhoto}
+                  />
+                  {idx === 1 && profilePhotos.secondary.length > 2 && (
+                    <div className={styles.photoOverlay}>
+                      📷 +{profilePhotos.secondary.length - 2}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Rich Description */}
+          <p className={styles.description}>
+            <RichText text={richDescription} />
+          </p>
+        </>
       )}
 
-      {/* Work Roles */}
+      {/* Work Roles - Bullet list style */}
       {workRoles.length > 0 && (
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Werkervaring</h2>
-          <div className={styles.cardGrid}>
+          <h2 className={styles.sectionTitle}>Current roles</h2>
+          <ul className={styles.rolesList}>
             {workRoles.map((role) => (
-              <div key={role._id} className={styles.card}>
-                <div className={styles.cardHeader}>
-                  <div className={styles.cardLogoPlaceholder}>
-                    {role.organization.charAt(0)}
-                  </div>
-                  <div className={styles.cardInfo}>
-                    <h3 className={styles.cardTitle}>{role.title}</h3>
-                    <p className={styles.cardSubtitle}>{role.organization}</p>
-                  </div>
-                </div>
-                {role.description && (
-                  <p className={styles.cardDescription}>{role.description}</p>
-                )}
-              </div>
+              <li key={role._id} className={styles.roleItem}>
+                <strong>{role.organization}</strong>
+                <span className={styles.roleSeparator}>—</span>
+                {role.description || role.title}
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
       )}
 
       {/* Projects */}
       {projects.length > 0 && (
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Projecten & Investeringen</h2>
+          <h2 className={styles.sectionTitle}>Projecten</h2>
           <div className={styles.cardGrid}>
             {projects.map((project) => (
               <div key={project._id} className={styles.card}>
-                <div className={styles.cardHeader}>
-                  <div className={styles.cardLogoPlaceholder}>
-                    {project.name.charAt(0)}
-                  </div>
-                  <div className={styles.cardInfo}>
-                    <h3 className={styles.cardTitle}>{project.name}</h3>
-                  </div>
-                </div>
+                <h3 className={styles.cardTitle}>{project.name}</h3>
+                <p className={styles.cardCategory}>{project.category}</p>
                 <p className={styles.cardDescription}>{project.description}</p>
-                <span className={styles.cardCategory}>{project.category}</span>
               </div>
             ))}
           </div>
