@@ -2,9 +2,10 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--color-background);
 }
 
-/* Home State - Centered */
+/* Home State - Centered like reference */
 .homeContainer {
   flex: 1;
   display: flex;
@@ -26,46 +27,147 @@
 
 .hero {
   text-align: center;
-  margin-bottom: var(--spacing-2xl);
+  margin-bottom: var(--spacing-xl);
   max-width: 600px;
 }
 
 .heroTitle {
-  font-size: var(--font-size-3xl);
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-md);
-  line-height: 1.2;
-}
-
-.heroSubtitle {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-2xl);
+  font-weight: 500;
   color: var(--color-text-secondary);
-  line-height: 1.6;
+  margin-bottom: var(--spacing-xl);
+  line-height: 1.3;
 }
 
 .inputSection {
   width: 100%;
-  max-width: var(--max-width);
+  max-width: 600px;
   margin-bottom: var(--spacing-lg);
 }
 
-/* Chat State */
-.chatContainer {
+/* Result State - Clean layout with header */
+.resultContainer {
   flex: 1;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - var(--header-height));
 }
 
-.chatMessages {
+.resultHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  background-color: var(--color-background);
+  z-index: 10;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  transition: background-color var(--transition-fast);
+}
+
+.backButton:hover {
+  background-color: var(--color-surface);
+}
+
+.headerTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.headerInitials {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.shareButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.shareButton:hover {
+  background-color: var(--color-surface);
+}
+
+/* User query pill */
+.queryPill {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--spacing-lg);
+  padding-bottom: 0;
+}
+
+.queryText {
+  display: inline-block;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+/* Result content area */
+.resultContent {
   flex: 1;
   overflow-y: auto;
+  padding-bottom: 100px;
 }
 
-.chatInput {
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-background);
+/* Fixed input at bottom */
+.bottomInput {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: linear-gradient(to top, var(--color-background) 80%, transparent);
+  display: flex;
+  justify-content: center;
+}
+
+.bottomInputWrapper {
+  width: 100%;
+  max-width: 600px;
 }
 
 /* Footer */
@@ -81,16 +183,24 @@
 
 @media (max-width: 768px) {
   .heroTitle {
-    font-size: var(--font-size-2xl);
-  }
-
-  .heroSubtitle {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-xl);
   }
 
   .homeContainer {
     padding: var(--spacing-md);
     justify-content: flex-start;
     padding-top: var(--spacing-3xl);
+  }
+
+  .resultHeader {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .queryPill {
+    padding: var(--spacing-md);
+  }
+
+  .bottomInput {
+    padding: var(--spacing-sm) var(--spacing-md);
   }
 }

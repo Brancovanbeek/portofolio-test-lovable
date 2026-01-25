@@ -59,32 +59,32 @@ export function ResultView({
             <p className={styles.profileRole}>{person.role}</p>
           </div>
 
-          {/* Photo Grid */}
+          {/* Photo Grid - Main photo left, 2 smaller on right */}
           <div className={styles.photoGrid}>
-            <img
-              src={profilePhotos.main}
-              alt={person.name}
-              className={styles.mainPhoto}
-            />
-            <div className={styles.secondaryPhotos}>
-              {profilePhotos.secondary.slice(0, 2).map((url, idx) => (
-                <div key={idx} style={{ position: 'relative' }}>
-                  <img
-                    src={url}
-                    alt={`${person.name} foto ${idx + 2}`}
-                    className={styles.secondaryPhoto}
-                  />
-                  {idx === 1 && profilePhotos.secondary.length > 2 && (
-                    <div className={styles.photoOverlay}>
-                      📷 +{profilePhotos.secondary.length - 2}
-                    </div>
-                  )}
-                </div>
-              ))}
+            <div className={styles.mainPhotoWrapper}>
+              <img
+                src={profilePhotos.main}
+                alt={person.name}
+                className={styles.mainPhoto}
+              />
             </div>
+            {profilePhotos.secondary.slice(0, 2).map((url, idx) => (
+              <div key={idx} className={styles.secondaryPhotoWrapper}>
+                <img
+                  src={url}
+                  alt={`${person.name} foto ${idx + 2}`}
+                  className={styles.secondaryPhoto}
+                />
+                {idx === 1 && profilePhotos.secondary.length > 2 && (
+                  <div className={styles.photoCount}>
+                    📷 +{profilePhotos.secondary.length - 2}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
 
-          {/* Rich Description */}
+          {/* Rich Description with bold keywords */}
           <p className={styles.description}>
             <RichText text={richDescription} />
           </p>
@@ -110,7 +110,7 @@ export function ResultView({
       {/* Projects */}
       {projects.length > 0 && (
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Projecten</h2>
+          <h2 className={styles.sectionTitle}>Projects</h2>
           <div className={styles.cardGrid}>
             {projects.map((project) => (
               <div key={project._id} className={styles.card}>
@@ -126,7 +126,7 @@ export function ResultView({
       {/* FAQ Items */}
       {faqItems.length > 0 && (
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Veelgestelde vragen</h2>
+          <h2 className={styles.sectionTitle}>Frequently asked</h2>
           <div className={styles.faqList}>
             {faqItems.map((faq) => (
               <div key={faq._id} className={styles.faqItem}>
