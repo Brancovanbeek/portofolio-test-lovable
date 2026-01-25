@@ -1,5 +1,7 @@
 .container {
   padding: var(--spacing-lg);
+  max-width: 900px;
+  margin: 0 auto;
   animation: fadeIn var(--transition-normal) ease forwards;
 }
 
@@ -14,36 +16,52 @@
   }
 }
 
-.section {
-  margin-bottom: var(--spacing-2xl);
+/* Photo Grid Layout - matching reference */
+.photoGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
 }
 
-.sectionTitle {
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: var(--spacing-md);
+.mainPhoto {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
 }
 
-/* Person Profile */
-.profile {
+.secondaryPhotos {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: var(--spacing-2xl) 0;
+  gap: var(--spacing-md);
 }
 
-.profileImage {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+.secondaryPhoto {
+  width: 100%;
+  aspect-ratio: 4/3;
   object-fit: cover;
-  margin-bottom: var(--spacing-lg);
-  border: 3px solid var(--color-surface);
-  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-lg);
+  position: relative;
+}
+
+.photoOverlay {
+  position: absolute;
+  bottom: var(--spacing-sm);
+  right: var(--spacing-sm);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: var(--font-size-xs);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Profile Header */
+.profileHeader {
+  margin-bottom: var(--spacing-xl);
 }
 
 .profileName {
@@ -51,25 +69,68 @@
   font-weight: 700;
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-xs);
+  line-height: 1.2;
 }
 
 .profileRole {
-  font-size: var(--font-size-lg);
-  color: var(--color-accent);
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+/* Rich Description */
+.description {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-xl);
+}
+
+.description strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+/* Section Styling */
+.section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
   margin-bottom: var(--spacing-md);
 }
 
-.profileBio {
-  font-size: var(--font-size-base);
-  color: var(--color-text-secondary);
-  max-width: 500px;
-  line-height: 1.7;
+/* Roles List - bullet point style like reference */
+.rolesList {
+  list-style: disc;
+  padding-left: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
-/* Cards Grid */
+.roleItem {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.roleItem strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.roleSeparator {
+  color: var(--color-text-muted);
+  margin: 0 4px;
+}
+
+/* Cards Grid for Projects */
 .cardGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: var(--spacing-md);
 }
 
@@ -79,46 +140,11 @@
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   transition: all var(--transition-fast);
-  cursor: default;
 }
 
 .card:hover {
-  border-color: var(--color-accent);
-  box-shadow: var(--shadow-md);
+  border-color: var(--color-text-muted);
   transform: translateY(-2px);
-}
-
-.cardHeader {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-sm);
-}
-
-.cardLogo {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-sm);
-  object-fit: contain;
-  background-color: var(--color-background);
-  padding: var(--spacing-xs);
-}
-
-.cardLogoPlaceholder {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: var(--font-size-xl);
-  font-weight: 700;
-}
-
-.cardInfo {
-  flex: 1;
 }
 
 .cardTitle {
@@ -128,26 +154,16 @@
   margin-bottom: var(--spacing-xs);
 }
 
-.cardSubtitle {
+.cardCategory {
   font-size: var(--font-size-sm);
-  color: var(--color-accent);
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-sm);
 }
 
 .cardDescription {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   line-height: 1.6;
-  margin-top: var(--spacing-sm);
-}
-
-.cardCategory {
-  display: inline-block;
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-  background-color: var(--color-background);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-full);
-  margin-top: var(--spacing-sm);
 }
 
 /* FAQ Section */
@@ -166,7 +182,7 @@
 }
 
 .faqItem:hover {
-  border-color: var(--color-accent);
+  border-color: var(--color-text-muted);
 }
 
 .faqQuestion {
@@ -174,30 +190,12 @@
   font-weight: 600;
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-sm);
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-sm);
-}
-
-.faqQuestion::before {
-  content: '?';
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background-color: var(--color-accent);
-  color: white;
-  border-radius: 50%;
-  font-size: var(--font-size-sm);
-  flex-shrink: 0;
 }
 
 .faqAnswer {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   line-height: 1.6;
-  padding-left: 36px;
 }
 
 /* No Results */
@@ -222,21 +220,29 @@
   font-size: var(--font-size-sm);
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .container {
     padding: var(--spacing-md);
   }
 
-  .cardGrid {
+  .photoGrid {
     grid-template-columns: 1fr;
   }
 
-  .profileImage {
-    width: 100px;
-    height: 100px;
+  .secondaryPhotos {
+    flex-direction: row;
+  }
+
+  .secondaryPhoto {
+    flex: 1;
   }
 
   .profileName {
     font-size: var(--font-size-xl);
+  }
+
+  .cardGrid {
+    grid-template-columns: 1fr;
   }
 }
