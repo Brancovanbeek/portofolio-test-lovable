@@ -60,29 +60,24 @@ export function ResultView({
           </div>
 
           {/* Photo Grid - Main photo left, 2 smaller on right */}
-          <div className={styles.photoGrid}>
+            <div className={styles.photoGrid}>
             <div className={styles.mainPhotoWrapper}>
               <img
-                src={profilePhotos.main}
-                alt={person.name}
-                className={styles.mainPhoto}
+              src={profilePhotos.main}
+              alt={person.name}
+              className={styles.mainPhoto}
               />
             </div>
             {profilePhotos.secondary.slice(0, 2).map((url, idx) => (
               <div key={idx} className={styles.secondaryPhotoWrapper}>
-                <img
-                  src={url}
-                  alt={`${person.name} foto ${idx + 2}`}
-                  className={styles.secondaryPhoto}
-                />
-                {idx === 1 && profilePhotos.secondary.length > 2 && (
-                  <div className={styles.photoCount}>
-                    📷 +{profilePhotos.secondary.length - 2}
-                  </div>
-                )}
+              <img
+                src={url}
+                alt={`${person.name} foto ${idx + 2}`}
+                className={styles.secondaryPhoto}
+              />
               </div>
             ))}
-          </div>
+            </div>
 
           {/* Rich Description with bold keywords */}
           <p className={styles.description}>
