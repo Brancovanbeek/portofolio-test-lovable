@@ -11,7 +11,7 @@ interface ChatInputProps {
 
 export function ChatInput({
   onSubmit,
-  placeholder = 'Waar wil je meer over weten?',
+  placeholder = 'Ask anything',
   variant = 'default',
   initialValue = '',
   autoFocus = false,
@@ -36,7 +36,7 @@ export function ChatInput({
     const textarea = textareaRef.current;
     if (textarea) {
       textarea.style.height = 'auto';
-      textarea.style.height = `${textarea.scrollHeight}px`;
+      textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`;
     }
   }, [value]);
 
@@ -62,15 +62,24 @@ export function ChatInput({
 
   const inputWrapperClass = 
     variant === 'large' ? styles.inputWrapperLarge :
+    variant === 'compact' ? styles.inputWrapperCompact :
     styles.inputWrapper;
 
   const inputClass = 
     variant === 'large' ? styles.inputLarge :
+    variant === 'compact' ? styles.inputCompact :
     styles.input;
 
   return (
     <div className={containerClass}>
       <form onSubmit={handleSubmit} className={inputWrapperClass}>
+        {/* Plus button */}
+        <button type="button" className={styles.iconButton} aria-label="Add attachment">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+        </button>
+
         <textarea
           ref={textareaRef}
           className={inputClass}
@@ -81,22 +90,24 @@ export function ChatInput({
           rows={1}
           aria-label="Chat input"
         />
+
+        {/* Globe button */}
+        <button type="button" className={styles.iconButton} aria-label="Web search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+          </svg>
+        </button>
+
+        {/* Submit button - blue circle */}
         <button
           type="submit"
           className={styles.submitButton}
           disabled={!value.trim()}
-          aria-label="Verstuur bericht"
+          aria-label="Send message"
         >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M22 2L11 13" />
-            <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </button>
       </form>
