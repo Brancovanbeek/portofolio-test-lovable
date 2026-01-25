@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 import { mockData } from '../lib/sanity/mockData';
 import type { Person, Project, WorkRole, FAQItem } from '../lib/sanity/client';
 
@@ -9,12 +9,32 @@ interface SearchResults {
   faqItems: FAQItem[];
 }
 
-// Keywords mapping for different query types
+// Keywords mapping for different query types (English + Dutch)
 const keywordMappings: Record<string, string[]> = {
-  person: ['wie', 'ben', 'jij', 'jezelf', 'over', 'profiel', 'naam', 'Branco', 'designer', 'developer', 'ontwikkelaar', 'frontend'],
-  projects: ['project', 'projecten', 'bouw', 'gebouwd', 'gemaakt', 'werk', 'app', 'investering', 'portfolio'],
-  workRoles: ['werk', 'baan', 'ervaring', 'rol', 'functie', 'carrière', 'career', 'job', 'werkervaring'],
-  faq: ['vraag', 'vragen', 'hoe', 'wat', 'waarom', 'contact', 'bereiken', 'achtergrond', 'visie', 'investeer'],
+  person: [
+    // English
+    'who', 'about', 'profile', 'branco', 'beek', 'yourself', 'you', 'designer', 'developer',
+    // Dutch
+    'wie', 'ben', 'jij', 'jezelf', 'over', 'profiel', 'naam', 'ontwikkelaar', 'frontend'
+  ],
+  projects: [
+    // English
+    'project', 'projects', 'built', 'made', 'work', 'app', 'investment', 'portfolio', 'website',
+    // Dutch
+    'bouw', 'gebouwd', 'gemaakt', 'investering'
+  ],
+  workRoles: [
+    // English
+    'work', 'job', 'experience', 'role', 'career', 'founder', 'current',
+    // Dutch
+    'baan', 'ervaring', 'rol', 'functie', 'carrière', 'werkervaring'
+  ],
+  faq: [
+    // English
+    'question', 'how', 'why', 'contact', 'reach', 'background', 'vision',
+    // Dutch
+    'vraag', 'vragen', 'hoe', 'waarom', 'bereiken', 'achtergrond', 'visie', 'investeer'
+  ],
 };
 
 export function useSearch() {
@@ -24,7 +44,7 @@ export function useSearch() {
     setIsSearching(true);
 
     // Simulate network delay for realistic feel
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 400));
 
     const normalizedQuery = query.toLowerCase().trim();
     const words = normalizedQuery.split(/\s+/);
@@ -33,45 +53,7 @@ export function useSearch() {
     const matchesCategory = (category: keyof typeof keywordMappings): boolean => {
       return words.some((word) =>
         keywordMappings[category].some((keyword) =>
-          keyword.includes(word) || word.includes(keyword)
-        )
-      );
-    };
-
-    // Filter functions
-    const filterProjects = (projects: Project[]): Project[] => {
-      return projects.filter((project) =>
-        project.name.toLowerCase().includes(normalizedQuery) ||
-        project.description.toLowerCase().includes(normalizedQuery) ||
-        project.category.toLowerCase().includes(normalizedQuery) ||
-        words.some((word) =>
-          project.name.toLowerCase().includes(word) ||
-          project.description.toLowerCase().includes(word) ||
-          project.category.toLowerCase().includes(word)
-        )
-      );
-    };
-
-    const filterWorkRoles = (roles: WorkRole[]): WorkRole[] => {
-      return roles.filter((role) =>
-        role.title.toLowerCase().includes(normalizedQuery) ||
-        role.organization.toLowerCase().includes(normalizedQuery) ||
-        (role.description?.toLowerCase().includes(normalizedQuery)) ||
-        words.some((word) =>
-          role.title.toLowerCase().includes(word) ||
-          role.organization.toLowerCase().includes(word) ||
-          (role.description?.toLowerCase().includes(word))
-        )
-      );
-    };
-
-    const filterFAQ = (items: FAQItem[]): FAQItem[] => {
-      return items.filter((item) =>
-        item.question.toLowerCase().includes(normalizedQuery) ||
-        item.answer.toLowerCase().includes(normalizedQuery) ||
-        words.some((word) =>
-          item.question.toLowerCase().includes(word) ||
-          item.answer.toLowerCase().includes(word)
+          keyword.toLowerCase().includes(word) || word.includes(keyword.toLowerCase())
         )
       );
     };
@@ -84,50 +66,32 @@ export function useSearch() {
       faqItems: [],
     };
 
-    // Check for person-related queries
+    // Check for person-related queries - show person + work roles (like reference)
     if (matchesCategory('person')) {
       results.person = mockData.person;
+      results.workRoles = mockData.workRoles; // Always show roles with person
     }
 
     // Check for project-related queries
     if (matchesCategory('projects')) {
-      results.projects = filterProjects(mockData.projects);
-      if (results.projects.length === 0) {
-        results.projects = mockData.projects; // Show all if no specific match
-      }
+      results.projects = mockData.projects;
     }
 
     // Check for work-related queries
-    if (matchesCategory('workRoles')) {
-      results.workRoles = filterWorkRoles(mockData.workRoles);
-      if (results.workRoles.length === 0) {
-        results.workRoles = mockData.workRoles;
-      }
+    if (matchesCategory('workRoles') && !results.person) {
+      results.workRoles = mockData.workRoles;
     }
 
     // Check for FAQ-related queries
     if (matchesCategory('faq')) {
-      results.faqItems = filterFAQ(mockData.faqItems);
-      if (results.faqItems.length === 0) {
-        results.faqItems = mockData.faqItems.slice(0, 3);
-      }
+      results.faqItems = mockData.faqItems;
     }
 
-    // If no specific category matched, try to find relevant content
+    // If no specific category matched, show person profile as default
     if (!results.person && results.projects.length === 0 && 
         results.workRoles.length === 0 && results.faqItems.length === 0) {
-      // Try filtering each category
-      results.projects = filterProjects(mockData.projects);
-      results.workRoles = filterWorkRoles(mockData.workRoles);
-      results.faqItems = filterFAQ(mockData.faqItems);
-
-      // If still nothing, show some default content
-      if (results.projects.length === 0 && 
-          results.workRoles.length === 0 && 
-          results.faqItems.length === 0) {
-        results.person = mockData.person;
-        results.faqItems = mockData.faqItems.slice(0, 2);
-      }
+      results.person = mockData.person;
+      results.workRoles = mockData.workRoles;
     }
 
     setIsSearching(false);
